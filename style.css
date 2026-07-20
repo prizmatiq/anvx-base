@@ -43,6 +43,15 @@ a:hover { text-decoration: underline; }
   flex-shrink: 0;
   border-right: 1px solid var(--border);
   padding: 20px 12px;
+  overflow: hidden;
+  transition: width 0.2s ease, padding 0.2s ease, transform 0.2s ease;
+}
+
+.layout.sidebar-hidden .sidebar {
+  width: 0;
+  padding-left: 0;
+  padding-right: 0;
+  border-right: none;
 }
 
 .sidebar .brand {
@@ -50,6 +59,7 @@ a:hover { text-decoration: underline; }
   font-size: 15px;
   padding: 4px 8px 16px 8px;
   color: var(--text);
+  white-space: nowrap;
 }
 
 .sidebar nav a {
@@ -58,6 +68,7 @@ a:hover { text-decoration: underline; }
   border-radius: 4px;
   color: var(--text-secondary);
   font-size: 16px;
+  white-space: nowrap;
 }
 
 .sidebar nav a:hover {
@@ -72,10 +83,36 @@ a:hover { text-decoration: underline; }
   font-weight: 500;
 }
 
+.sidebar-toggle {
+  position: fixed;
+  top: 20px;
+  left: 24px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 101;
+  transition: background 0.15s ease;
+}
+
+.sidebar-toggle:hover { background: var(--hover); }
+
+.sidebar-backdrop {
+  display: none;
+}
+
 /* Content */
 .content {
   flex: 1;
-  padding: 48px 64px;
+  min-width: 0;
+  padding: 76px 64px 48px 64px;
   max-width: 760px;
 }
 
@@ -224,4 +261,47 @@ ul.plain li { margin: 2px 0; }
 
 .theme-toggle:hover {
   background: var(--hover);
+}
+
+/* Адаптив: планшеты и телефоны */
+@media (max-width: 768px) {
+
+  .content {
+    padding: 76px 20px 32px 20px;
+    max-width: 100%;
+  }
+
+  h1 { font-size: 28px; }
+  h2 { font-size: 20px; }
+
+  .do-dont {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  /* панель становится плавающей поверх контента, а не частью потока */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 100;
+    width: var(--sidebar-w) !important;
+    padding: 20px 12px !important;
+    background: var(--bg);
+    box-shadow: 2px 0 16px rgba(0, 0, 0, 0.15);
+    transform: translateX(0);
+  }
+
+  .layout.sidebar-hidden .sidebar {
+    transform: translateX(-100%);
+  }
+
+  .layout:not(.sidebar-hidden) .sidebar-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 99;
+  }
 }
