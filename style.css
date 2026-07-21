@@ -130,14 +130,15 @@ a:hover { text-decoration: underline; }
 .breadcrumb a:hover { color: var(--link); }
 
 .page-title-row {
-  display: flex;
-  align-items: center;
-  gap: 14px;
+  position: relative;
   margin-bottom: 8px;
 }
 
 .back-button {
-  flex-shrink: 0;
+  position: absolute;
+  left: -50px;
+  top: 50%;
+  transform: translateY(-50%);
   width: 36px;
   height: 36px;
   border-radius: 50%;
@@ -307,6 +308,18 @@ ul.plain li { margin: 2px 0; }
   h1 { font-size: 28px; }
   h2 { font-size: 20px; }
 
+  .page-title-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .back-button {
+    position: static;
+    transform: none;
+    flex-shrink: 0;
+  }
+
   .do-dont {
     flex-direction: column;
     gap: 4px;
@@ -422,5 +435,5 @@ ul.plain li { margin: 2px 0; }
   border-radius: 8px;
   pointer-events: none;
   z-index: 1;
-  animation: toc-section-flash 1.8s ease-out;
+  animation: toc-section-flash 1.2s ease-out;
 }
