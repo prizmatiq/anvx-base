@@ -112,6 +112,7 @@ a:hover { text-decoration: underline; }
 .content {
   flex: 1;
   min-width: 0;
+  margin: 0 auto;
   padding: 76px 64px 48px 64px;
   max-width: 760px;
 }
