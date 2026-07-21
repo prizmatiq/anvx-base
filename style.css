@@ -5,6 +5,8 @@
   --border: #e9e9e7;
   --hover: #f7f6f3;
   --link: #2383e2;
+  --do: #6b8f71;
+  --dont: #b0655c;
   --sidebar-w: 240px;
 }
 
@@ -15,6 +17,8 @@
   --border: #2f2f2f;
   --hover: #262626;
   --link: #5b9bd5;
+  --do: #7fa384;
+  --dont: #c17b6f;
 }
 
 * { box-sizing: border-box; }
@@ -263,7 +267,31 @@ p { margin: 8px 0 16px 0; }
 .do-dont > div { flex: 1; }
 
 .do-dont ul { list-style: none; padding: 0; margin: 0; }
-.do-dont li { padding: 4px 0; font-size: 14px; }
+.do-dont li,
+.do-dont-list li {
+  padding: 4px 0;
+  font-size: 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.do-dont-list { list-style: none; padding: 0; margin: 8px 0 16px 0; }
+
+.li-icon {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+}
+
+.li-icon.check { color: var(--do); }
+.li-icon.cross { color: var(--dont); }
+
+.li-icon svg {
+  width: 100%;
+  height: 100%;
+}
 
 ul.plain { padding-left: 20px; margin: 8px 0 16px 0; }
 ul.plain li { margin: 2px 0; }

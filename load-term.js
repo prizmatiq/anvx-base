@@ -6,8 +6,11 @@ function parseDoDontItems(block) {
     .map(function (line) { return line.replace(/^-+\s*/, '').trim(); });
 }
 
-function buildList(items, mark) {
-  return items.map(function (i) { return '<li>' + mark + ' ' + i + '</li>'; }).join('\n');
+var CHECK_ICON = '<span class="li-icon check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span>';
+var CROSS_ICON = '<span class="li-icon cross"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span>';
+
+function buildList(items, icon) {
+  return items.map(function (i) { return '<li>' + icon + '<span>' + i + '</span></li>'; }).join('\n');
 }
 
 // Преобразует пользовательский синтаксис :::do / :::do-not в готовый HTML-блок
@@ -19,20 +22,20 @@ function transformDoDont(md) {
     function (match, doBlock, dontBlock) {
       var doItems = parseDoDontItems(doBlock);
       var dontItems = parseDoDontItems(dontBlock);
-      return '\n<div class="do-dont">\n<div>\n<ul>\n' + buildList(doItems, '✅') +
-        '\n</ul>\n</div>\n<div>\n<ul>\n' + buildList(dontItems, '❌') +
+      return '\n<div class="do-dont">\n<div>\n<ul>\n' + buildList(doItems, CHECK_ICON) +
+        '\n</ul>\n</div>\n<div>\n<ul>\n' + buildList(dontItems, CROSS_ICON) +
         '\n</ul>\n</div>\n</div>\n';
     }
   );
 
   // одиночный :::do без пары
   md = md.replace(/:::do\s*\n([\s\S]*?)\n:::/g, function (match, block) {
-    return '\n<ul>\n' + buildList(parseDoDontItems(block), '✅') + '\n</ul>\n';
+    return '\n<ul class="do-dont-list">\n' + buildList(parseDoDontItems(block), CHECK_ICON) + '\n</ul>\n';
   });
 
   // одиночный :::do-not без пары
   md = md.replace(/:::do-not\s*\n([\s\S]*?)\n:::/g, function (match, block) {
-    return '\n<ul>\n' + buildList(parseDoDontItems(block), '❌') + '\n</ul>\n';
+    return '\n<ul class="do-dont-list">\n' + buildList(parseDoDontItems(block), CROSS_ICON) + '\n</ul>\n';
   });
 
   return md;
