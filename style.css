@@ -57,14 +57,6 @@ a:hover { text-decoration: underline; }
   transform: translateX(0);
 }
 
-.layout:not(.sidebar-hidden) .sidebar-backdrop {
-  display: block;
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.3);
-  z-index: 99;
-}
-
 .sidebar .brand {
   font-weight: 600;
   font-size: 15px;
@@ -285,4 +277,82 @@ ul.plain li { margin: 2px 0; }
     flex-direction: column;
     gap: 4px;
   }
+
+  /* затемнение фона — только на мобильных, где панель открывается как шторка поверх */
+  .layout:not(.sidebar-hidden) .sidebar-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 99;
+  }
+}
+
+/* Оглавление страницы — плавающий индикатор справа */
+.toc {
+  position: fixed;
+  top: 50%;
+  right: 24px;
+  transform: translateY(-50%);
+  z-index: 90;
+}
+
+.toc-trigger {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.toc-dash {
+  width: 16px;
+  height: 2px;
+  background: var(--border);
+  border-radius: 2px;
+  transition: background 0.15s ease, width 0.15s ease;
+}
+
+.toc:hover .toc-dash {
+  background: var(--text-secondary);
+}
+
+.toc-panel {
+  display: none;
+  position: absolute;
+  right: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 0;
+  min-width: 220px;
+  max-width: 280px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+}
+
+.toc:hover .toc-panel {
+  display: block;
+}
+
+.toc-panel a {
+  display: block;
+  padding: 6px 16px;
+  font-size: 14px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.toc-panel a:hover {
+  background: var(--hover);
+  color: var(--text);
+  text-decoration: none;
+}
+
+@media (max-width: 1000px) {
+  .toc { display: none; }
 }
