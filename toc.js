@@ -1,11 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
-  var h1 = document.querySelector('.content h1');
-  var h2s = document.querySelectorAll('.content h2');
-  if (!h1 && h2s.length === 0) return;
-
-  var headings = [];
-  if (h1) headings.push(h1);
-  h2s.forEach(function (h) { headings.push(h); });
+  var headings = document.querySelectorAll('.content h1, .content h2, .content h3');
+  if (headings.length === 0) return;
 
   var toc = document.createElement('div');
   toc.className = 'toc';
@@ -18,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   headings.forEach(function (h, i) {
     var dash = document.createElement('span');
-    dash.className = 'toc-dash';
+    dash.className = 'toc-dash toc-dash-' + h.tagName.toLowerCase();
     trigger.appendChild(dash);
 
     if (!h.id) {
@@ -30,6 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     var link = document.createElement('a');
+    link.className = 'toc-link-' + h.tagName.toLowerCase();
     link.href = '#' + h.id;
     link.textContent = h.textContent;
     link.addEventListener('click', function (e) {

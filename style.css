@@ -346,6 +346,10 @@ ul.plain li { margin: 2px 0; }
   transition: background 0.15s ease, width 0.15s ease;
 }
 
+.toc-dash-h1 { width: 16px; }
+.toc-dash-h2 { width: 12.8px; }
+.toc-dash-h3 { width: 9.6px; }
+
 .toc:hover .toc-dash {
   background: var(--text-secondary);
 }
@@ -378,6 +382,9 @@ ul.plain li { margin: 2px 0; }
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.toc-link-h1 { font-weight: 600; }
+.toc-link-h3 { padding-left: 28px; font-size: 13px; }
 
 .toc-panel a:hover {
   background: var(--hover);
