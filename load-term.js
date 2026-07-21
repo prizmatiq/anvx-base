@@ -13,6 +13,38 @@ function buildList(items, icon) {
   return items.map(function (i) { return '<li>' + icon + '<span>' + i + '</span></li>'; }).join('\n');
 }
 
+var TELEGRAM_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>';
+var EMAIL_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22 6 12 13 2 6"></polyline></svg>';
+
+// Преобразует :::contact <адрес> в кнопку-ссылку. Понимает три формата:
+// :::contact @username        -> https://t.me/username
+// :::contact user@mail.com    -> mailto:user@mail.com
+// :::contact https://t.me/... -> ссылка как есть (например, инвайт в чат)
+function transformContact(md) {
+  return md.replace(/^:::contact\s+(\S+)\s*$/gm, function (match, value) {
+    var href, label, icon;
+    if (/^https?:\/\//.test(value)) {
+      href = value;
+      label = 'Telegram';
+      icon = TELEGRAM_ICON;
+    } else if (/^@/.test(value)) {
+      href = 'https://t.me/' + value.slice(1);
+      label = value;
+      icon = TELEGRAM_ICON;
+    } else if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+      href = 'mailto:' + value;
+      label = value;
+      icon = EMAIL_ICON;
+    } else {
+      href = 'https://t.me/' + value;
+      label = '@' + value;
+      icon = TELEGRAM_ICON;
+    }
+    return '\n<a class="contact-button" href="' + href + '" target="_blank" rel="noopener">' +
+      icon + '<span>' + label + '</span></a>\n';
+  });
+}
+
 // Преобразует пользовательский синтаксис :::do / :::do-not в готовый HTML-блок
 // со списками ✅/❌, до того как текст попадёт в marked.parse.
 function transformDoDont(md) {
@@ -53,7 +85,7 @@ document.addEventListener('DOMContentLoaded', function () {
       return res.text();
     })
     .then(function (md) {
-      container.innerHTML = marked.parse(transformDoDont(md));
+      container.innerHTML = marked.parse(transformDoDont(transformContact(md)));
 
       var h1 = container.querySelector('h1');
       if (h1) {
