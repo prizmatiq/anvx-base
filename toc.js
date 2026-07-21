@@ -43,8 +43,8 @@ function initTOC() {
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
         document.getElementById(h.id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+        flashSection(h, headings[i + 1]);
       }
-      flashSection(h, headings[i + 1]);
     });
     panel.appendChild(link);
   });
@@ -61,7 +61,15 @@ function initTOC() {
     var textEl = document.getElementById('term-content') || document.querySelector('.content');
     var textRect = textEl.getBoundingClientRect();
     var startTop = startEl.getBoundingClientRect().top;
-    var endTop = endEl ? endEl.getBoundingClientRect().top : textRect.bottom;
+
+    var endTop;
+    if (endEl && endEl.previousElementSibling) {
+      endTop = endEl.previousElementSibling.getBoundingClientRect().bottom;
+    } else if (endEl) {
+      endTop = endEl.getBoundingClientRect().top;
+    } else {
+      endTop = textRect.bottom;
+    }
 
     var pad = 12;
     var overlay = document.createElement('div');
