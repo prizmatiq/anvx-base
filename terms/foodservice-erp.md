@@ -1,4 +1,4 @@
-# Foodservice ERP 38
+# Foodservice ERP
 
 ## Определение
 
