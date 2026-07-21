@@ -266,9 +266,9 @@ p { margin: 8px 0 16px 0; }
 
 .do-dont > div { flex: 1; }
 
-.do-dont ul { list-style: none; padding: 0; margin: 0; }
-.do-dont li,
-.do-dont-list li {
+.content .do-dont ul { list-style: none; padding: 0; margin: 0; }
+.content .do-dont li,
+.content .do-dont-list li {
   padding: 4px 0;
   font-size: 14px;
   display: flex;
@@ -276,7 +276,7 @@ p { margin: 8px 0 16px 0; }
   gap: 8px;
 }
 
-.do-dont-list { list-style: none; padding: 0; margin: 8px 0 16px 0; }
+.content .do-dont-list { list-style: none; padding: 0; margin: 8px 0 16px 0; }
 
 .li-icon {
   flex-shrink: 0;
