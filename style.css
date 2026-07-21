@@ -33,25 +33,36 @@ a { color: var(--link); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
 .layout {
-  display: flex;
   min-height: 100vh;
 }
 
-/* Sidebar */
+/* Sidebar — всегда наплывающая панель, не часть потока контента */
 .sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
   width: var(--sidebar-w);
-  flex-shrink: 0;
+  z-index: 100;
+  background: var(--bg);
   border-right: 1px solid var(--border);
   padding: 68px 12px 20px 12px;
   overflow: hidden;
-  transition: width 0.2s ease, padding 0.2s ease, transform 0.2s ease;
+  box-shadow: 2px 0 16px rgba(0, 0, 0, 0.15);
+  transform: translateX(-100%);
+  transition: transform 0.2s ease;
 }
 
-.layout.sidebar-hidden .sidebar {
-  width: 0;
-  padding-left: 0;
-  padding-right: 0;
-  border-right: none;
+.layout:not(.sidebar-hidden) .sidebar {
+  transform: translateX(0);
+}
+
+.layout:not(.sidebar-hidden) .sidebar-backdrop {
+  display: block;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 99;
 }
 
 .sidebar .brand {
@@ -108,13 +119,11 @@ a:hover { text-decoration: underline; }
   display: none;
 }
 
-/* Content */
+/* Content — центрируется относительно всего окна, сайдбар на это не влияет */
 .content {
-  flex: 1;
-  min-width: 0;
   margin: 0 auto;
   padding: 76px 64px 48px 64px;
-  max-width: 760px;
+  max-width: 840px;
 }
 
 .breadcrumb {
@@ -275,31 +284,5 @@ ul.plain li { margin: 2px 0; }
   .do-dont {
     flex-direction: column;
     gap: 4px;
-  }
-
-  /* панель становится плавающей поверх контента, а не частью потока */
-  .sidebar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    z-index: 100;
-    width: var(--sidebar-w) !important;
-    padding: 68px 12px 20px 12px !important;
-    background: var(--bg);
-    box-shadow: 2px 0 16px rgba(0, 0, 0, 0.15);
-    transform: translateX(0);
-  }
-
-  .layout.sidebar-hidden .sidebar {
-    transform: translateX(-100%);
-  }
-
-  .layout:not(.sidebar-hidden) .sidebar-backdrop {
-    display: block;
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.3);
-    z-index: 99;
   }
 }
