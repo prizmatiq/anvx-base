@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var container = document.getElementById('term-content');
   if (!container) return;
 
-  var mdPath = location.pathname.replace(/\.html$/, '.md');
+  var mdPath = location.pathname.replace(/[^\/]*$/, '') + 'document.md';
 
   fetch(mdPath)
     .then(function (res) {
