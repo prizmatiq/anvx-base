@@ -14,10 +14,14 @@ function initTOC() {
   var panel = document.createElement('div');
   panel.className = 'toc-panel';
 
+  var dashEls = [];
+  var linkEls = [];
+
   headings.forEach(function (h, i) {
     var dash = document.createElement('span');
     dash.className = 'toc-dash toc-dash-' + h.tagName.toLowerCase();
     trigger.appendChild(dash);
+    dashEls.push(dash);
 
     if (!h.id) {
       h.id = 'section-' + i + '-' + h.textContent
@@ -31,6 +35,7 @@ function initTOC() {
     link.className = 'toc-link-' + h.tagName.toLowerCase();
     link.href = '#' + h.id;
     link.textContent = h.textContent;
+    linkEls.push(link);
     var isFirstH1 = (i === 0 && h.tagName === 'H1');
     link.addEventListener('click', function (e) {
       e.preventDefault();
@@ -53,6 +58,19 @@ function initTOC() {
   toc.appendChild(trigger);
   toc.appendChild(panel);
   document.body.appendChild(toc);
+
+  // подсветка текущего раздела при скролле
+  function updateActive() {
+    var current = 0;
+    for (var i = 0; i < headings.length; i++) {
+      if (headings[i].getBoundingClientRect().top <= 120) current = i;
+    }
+    dashEls.forEach(function (d, i) { d.classList.toggle('active', i === current); });
+    linkEls.forEach(function (l, i) { l.classList.toggle('active', i === current); });
+  }
+
+  updateActive();
+  window.addEventListener('scroll', updateActive, { passive: true });
 }
 
 document.addEventListener('DOMContentLoaded', initTOC);

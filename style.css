@@ -334,7 +334,7 @@ ul.plain li { margin: 2px 0; }
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 6px;
+  gap: 8px;
   padding: 10px;
   cursor: pointer;
 }
@@ -355,6 +355,11 @@ ul.plain li { margin: 2px 0; }
 .toc:hover .toc-dash {
   opacity: 1;
   background: var(--text);
+}
+
+.toc-dash.active {
+  opacity: 1;
+  background: var(--link);
 }
 
 .toc-panel {
@@ -393,6 +398,11 @@ ul.plain li { margin: 2px 0; }
   background: var(--hover);
   color: var(--text);
   text-decoration: none;
+}
+
+.toc-panel a.active {
+  color: var(--text);
+  font-weight: 600;
 }
 
 @media (max-width: 1000px) {
