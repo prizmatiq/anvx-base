@@ -342,10 +342,10 @@ ul.plain li { margin: 2px 0; }
 .toc-dash {
   width: 16px;
   height: 2px;
-  background: var(--text-secondary);
+  background: var(--text);
   border-radius: 2px;
-  opacity: 0.6;
-  transition: background 0.15s ease, width 0.15s ease, opacity 0.15s ease;
+  opacity: 0.4;
+  transition: width 0.15s ease, opacity 0.15s ease;
 }
 
 .toc-dash-h1 { width: 16px; }
@@ -353,13 +353,11 @@ ul.plain li { margin: 2px 0; }
 .toc-dash-h3 { width: 9.6px; }
 
 .toc:hover .toc-dash {
-  opacity: 1;
-  background: var(--text);
+  opacity: 0.7;
 }
 
 .toc-dash.active {
   opacity: 1;
-  background: var(--link);
 }
 
 .toc-panel {
