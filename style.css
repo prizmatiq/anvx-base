@@ -272,18 +272,16 @@ ul.plain li { margin: 2px 0; }
 
 .theme-toggle-sidebar {
   margin-top: auto;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 8px;
+  justify-content: center;
   border: none;
   background: none;
-  border-radius: 4px;
+  border-radius: 50%;
   color: var(--text-secondary);
-  font-size: 16px;
-  font-family: inherit;
   cursor: pointer;
-  white-space: nowrap;
   transition: background 0.15s ease, color 0.15s ease;
 }
 
@@ -344,9 +342,10 @@ ul.plain li { margin: 2px 0; }
 .toc-dash {
   width: 16px;
   height: 2px;
-  background: var(--border);
+  background: var(--text-secondary);
   border-radius: 2px;
-  transition: background 0.15s ease, width 0.15s ease;
+  opacity: 0.6;
+  transition: background 0.15s ease, width 0.15s ease, opacity 0.15s ease;
 }
 
 .toc-dash-h1 { width: 16px; }
@@ -354,7 +353,8 @@ ul.plain li { margin: 2px 0; }
 .toc-dash-h3 { width: 9.6px; }
 
 .toc:hover .toc-dash {
-  background: var(--text-secondary);
+  opacity: 1;
+  background: var(--text);
 }
 
 .toc-panel {
@@ -397,4 +397,15 @@ ul.plain li { margin: 2px 0; }
 
 @media (max-width: 1000px) {
   .toc { display: none; }
+}
+
+/* временная подсветка раздела, к которому перешли из TOC */
+@keyframes toc-flash {
+  0% { background-color: rgba(128, 128, 128, 0.2); }
+  100% { background-color: transparent; }
+}
+
+.toc-flash {
+  animation: toc-flash 1.2s ease-out;
+  border-radius: 4px;
 }

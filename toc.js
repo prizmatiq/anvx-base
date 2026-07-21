@@ -39,6 +39,13 @@ function initTOC() {
       } else {
         document.getElementById(h.id).scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
+      h.classList.remove('toc-flash');
+      void h.offsetWidth; // перезапуск анимации, если кликнули повторно
+      h.classList.add('toc-flash');
+      h.addEventListener('animationend', function handler() {
+        h.classList.remove('toc-flash');
+        h.removeEventListener('animationend', handler);
+      });
     });
     panel.appendChild(link);
   });

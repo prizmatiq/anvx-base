@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function updateIcon() {
     var isDark = root.getAttribute('data-theme') === 'dark';
-    btn.innerHTML = (isDark ? moonIcon : sunIcon) + '<span>' + (isDark ? 'Тёмная тема' : 'Светлая тема') + '</span>';
+    btn.innerHTML = isDark ? moonIcon : sunIcon;
   }
   updateIcon();
 
