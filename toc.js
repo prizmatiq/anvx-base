@@ -1,4 +1,7 @@
-document.addEventListener('DOMContentLoaded', function () {
+function initTOC() {
+  var existing = document.querySelector('.toc');
+  if (existing) existing.remove();
+
   var headings = document.querySelectorAll('.content h1, .content h2, .content h3');
   if (headings.length === 0) return;
 
@@ -43,4 +46,7 @@ document.addEventListener('DOMContentLoaded', function () {
   toc.appendChild(trigger);
   toc.appendChild(panel);
   document.body.appendChild(toc);
-});
+}
+
+document.addEventListener('DOMContentLoaded', initTOC);
+window.initTOC = initTOC;

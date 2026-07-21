@@ -267,6 +267,9 @@ p { margin: 8px 0 16px 0; }
 ul.plain { padding-left: 20px; margin: 8px 0 16px 0; }
 ul.plain li { margin: 2px 0; }
 
+.content ul { padding-left: 20px; margin: 8px 0 16px 0; }
+.content li { margin: 2px 0; }
+
 .theme-toggle-sidebar {
   margin-top: auto;
   display: flex;
