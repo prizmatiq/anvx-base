@@ -91,7 +91,7 @@ a:hover { text-decoration: underline; }
 .sidebar-toggle {
   position: fixed;
   top: 20px;
-  left: 24px;
+  left: 12px;
   width: 36px;
   height: 36px;
   border-radius: 50%;
@@ -315,9 +315,7 @@ ul.plain li { margin: 2px 0; }
   }
 
   .back-button {
-    position: static;
-    transform: none;
-    flex-shrink: 0;
+    display: none;
   }
 
   .do-dont {
