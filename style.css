@@ -419,8 +419,8 @@ ul.plain li { margin: 2px 0; }
 .toc-section-flash {
   position: absolute;
   background-color: rgba(128, 128, 128, 0.2);
-  border-radius: 4px;
+  border-radius: 8px;
   pointer-events: none;
   z-index: 1;
-  animation: toc-section-flash 1.2s ease-out;
+  animation: toc-section-flash 1.8s ease-out;
 }

@@ -58,17 +58,18 @@ function initTOC() {
     var old = document.querySelector('.toc-section-flash');
     if (old) old.remove();
 
-    var contentEl = document.querySelector('.content');
-    var contentRect = contentEl.getBoundingClientRect();
+    var textEl = document.getElementById('term-content') || document.querySelector('.content');
+    var textRect = textEl.getBoundingClientRect();
     var startTop = startEl.getBoundingClientRect().top;
-    var endTop = endEl ? endEl.getBoundingClientRect().top : contentRect.bottom;
+    var endTop = endEl ? endEl.getBoundingClientRect().top : textRect.bottom;
 
+    var pad = 12;
     var overlay = document.createElement('div');
     overlay.className = 'toc-section-flash';
-    overlay.style.left = (contentRect.left + window.scrollX) + 'px';
-    overlay.style.width = contentRect.width + 'px';
-    overlay.style.top = (startTop + window.scrollY - 4) + 'px';
-    overlay.style.height = (endTop - startTop + 4) + 'px';
+    overlay.style.left = (textRect.left + window.scrollX - pad) + 'px';
+    overlay.style.width = (textRect.width + pad * 2) + 'px';
+    overlay.style.top = (startTop + window.scrollY - pad) + 'px';
+    overlay.style.height = (endTop - startTop + pad * 2) + 'px';
     document.body.appendChild(overlay);
     overlay.addEventListener('animationend', function () { overlay.remove(); });
   }
