@@ -369,6 +369,7 @@ ul.plain li { margin: 2px 0; }
   background: var(--bg);
   border: 1px solid var(--border);
   border-radius: 11px;
+  corner-shape: squircle;
   padding: 8px;
   min-width: 220px;
   max-width: 280px;
@@ -385,6 +386,7 @@ ul.plain li { margin: 2px 0; }
   box-sizing: border-box;
   padding: 9px 11px;
   border-radius: 6px;
+  corner-shape: squircle;
   font-size: 14px;
   color: var(--text);
   opacity: 0.6;
