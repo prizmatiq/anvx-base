@@ -211,10 +211,7 @@ p { margin: 8px 0 16px 0; }
   display: inline-block;
   font-size: 14px;
   color: var(--text-secondary);
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  padding: 2px 8px;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 
 .callout {
