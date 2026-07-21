@@ -114,7 +114,7 @@ a:hover { text-decoration: underline; }
 /* Content — центрируется относительно всего окна, сайдбар на это не влияет */
 .content {
   margin: 0 auto;
-  padding: 76px 64px 48px 64px;
+  padding: 56px 64px 48px 64px;
   max-width: 840px;
 }
 
@@ -127,10 +127,36 @@ a:hover { text-decoration: underline; }
 .breadcrumb a { color: var(--text-secondary); }
 .breadcrumb a:hover { color: var(--link); }
 
+.page-title-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 8px;
+}
+
+.back-button {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text);
+  font-size: 16px;
+  transition: background 0.15s ease;
+}
+
+.back-button:hover {
+  background: var(--hover);
+  text-decoration: none;
+}
+
 h1 {
   font-size: 36px;
   font-weight: 700;
-  margin: 0 0 8px 0;
+  margin: 0;
 }
 
 .subtitle {
@@ -291,9 +317,8 @@ ul.plain li { margin: 2px 0; }
 /* Оглавление страницы — плавающий индикатор справа */
 .toc {
   position: fixed;
-  top: 50%;
+  top: 200px;
   right: 24px;
-  transform: translateY(-50%);
   z-index: 90;
 }
 

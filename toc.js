@@ -1,6 +1,11 @@
 document.addEventListener('DOMContentLoaded', function () {
-  var headings = document.querySelectorAll('.content h2');
-  if (headings.length === 0) return;
+  var h1 = document.querySelector('.content h1');
+  var h2s = document.querySelectorAll('.content h2');
+  if (!h1 && h2s.length === 0) return;
+
+  var headings = [];
+  if (h1) headings.push(h1);
+  h2s.forEach(function (h) { headings.push(h); });
 
   var toc = document.createElement('div');
   toc.className = 'toc';
