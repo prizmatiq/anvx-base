@@ -16,10 +16,6 @@ function buildList(items, icon) {
 var TELEGRAM_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>';
 var EMAIL_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22 6 12 13 2 6"></polyline></svg>';
 
-// Преобразует :::contact <адрес> в кнопку-ссылку. Понимает три формата:
-// :::contact @username        -> https://t.me/username
-// :::contact user@mail.com    -> mailto:user@mail.com
-// :::contact https://t.me/... -> ссылка как есть (например, инвайт в чат)
 function transformContact(md) {
   return md.replace(/^:::contact\s+(\S+)\s*$/gm, function (match, value) {
     var href, label, icon;
@@ -45,10 +41,7 @@ function transformContact(md) {
   });
 }
 
-// Преобразует пользовательский синтаксис :::do / :::do-not в готовый HTML-блок
-// со списками ✅/❌, до того как текст попадёт в marked.parse.
 function transformDoDont(md) {
-  // парный случай: do сразу за которым идёт do-not — двухколоночный блок
   md = md.replace(
     /:::do\s*\n([\s\S]*?)\n:::\s*\n+:::do-not\s*\n([\s\S]*?)\n:::/g,
     function (match, doBlock, dontBlock) {
@@ -60,17 +53,30 @@ function transformDoDont(md) {
     }
   );
 
-  // одиночный :::do без пары
   md = md.replace(/:::do\s*\n([\s\S]*?)\n:::/g, function (match, block) {
     return '\n<ul class="do-dont-list">\n' + buildList(parseDoDontItems(block), CHECK_ICON) + '\n</ul>\n';
   });
 
-  // одиночный :::do-not без пары
   md = md.replace(/:::do-not\s*\n([\s\S]*?)\n:::/g, function (match, block) {
     return '\n<ul class="do-dont-list">\n' + buildList(parseDoDontItems(block), CROSS_ICON) + '\n</ul>\n';
   });
 
   return md;
+}
+
+function protectCodeBlocks(md) {
+  var blocks = [];
+  var protectedMd = md.replace(/```[\s\S]*?```/g, function (match) {
+    blocks.push(match);
+    return '\u0000CODEBLOCK' + (blocks.length - 1) + '\u0000';
+  });
+  return { md: protectedMd, blocks: blocks };
+}
+
+function restoreCodeBlocks(md, blocks) {
+  return md.replace(/\u0000CODEBLOCK(\d+)\u0000/g, function (match, i) {
+    return blocks[parseInt(i, 10)];
+  });
 }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -85,7 +91,10 @@ document.addEventListener('DOMContentLoaded', function () {
       return res.text();
     })
     .then(function (md) {
-      container.innerHTML = marked.parse(transformDoDont(transformContact(md)));
+      var protectedResult = protectCodeBlocks(md);
+      var transformed = transformDoDont(transformContact(protectedResult.md));
+      var finalMd = restoreCodeBlocks(transformed, protectedResult.blocks);
+      container.innerHTML = marked.parse(finalMd);
 
       var h1 = container.querySelector('h1');
       if (h1) {
