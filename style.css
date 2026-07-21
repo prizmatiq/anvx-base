@@ -364,7 +364,7 @@ ul.plain li { margin: 2px 0; }
   display: none;
   position: absolute;
   right: 30px;
-  top: 0;
+  top: -8px;
   background: var(--bg);
   border: 1px solid var(--border);
   border-radius: 10px;
@@ -396,7 +396,8 @@ ul.plain li { margin: 2px 0; }
 }
 
 .toc-link-h1 { font-weight: 600; }
-.toc-link-h3 { padding-left: 22px; font-size: 13px; }
+.toc-link-h2 { padding-left: 25px; }
+.toc-link-h3 { padding-left: 39px; font-size: 13px; }
 
 .toc-panel a:hover,
 .toc-panel a.active {
