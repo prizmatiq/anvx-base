@@ -368,7 +368,7 @@ ul.plain li { margin: 2px 0; }
   transform: translateY(-50%);
   background: var(--bg);
   border: 1px solid var(--border);
-  border-radius: 11px;
+  border-radius: 10px;
   corner-shape: squircle;
   padding: 8px;
   min-width: 220px;
@@ -385,7 +385,7 @@ ul.plain li { margin: 2px 0; }
   width: 100%;
   box-sizing: border-box;
   padding: 9px 11px;
-  border-radius: 6px;
+  border-radius: 5px;
   corner-shape: squircle;
   font-size: 14px;
   color: var(--text);
