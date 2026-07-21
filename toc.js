@@ -28,9 +28,14 @@ document.addEventListener('DOMContentLoaded', function () {
     link.className = 'toc-link-' + h.tagName.toLowerCase();
     link.href = '#' + h.id;
     link.textContent = h.textContent;
+    var isFirstH1 = (i === 0 && h.tagName === 'H1');
     link.addEventListener('click', function (e) {
       e.preventDefault();
-      document.getElementById(h.id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (isFirstH1) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        document.getElementById(h.id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     });
     panel.appendChild(link);
   });
