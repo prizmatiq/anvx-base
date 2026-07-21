@@ -44,13 +44,7 @@ function initTOC() {
       } else {
         document.getElementById(h.id).scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
-      h.classList.remove('toc-flash');
-      void h.offsetWidth; // перезапуск анимации, если кликнули повторно
-      h.classList.add('toc-flash');
-      h.addEventListener('animationend', function handler() {
-        h.classList.remove('toc-flash');
-        h.removeEventListener('animationend', handler);
-      });
+      flashSection(h, headings[i + 1]);
     });
     panel.appendChild(link);
   });
@@ -58,6 +52,26 @@ function initTOC() {
   toc.appendChild(trigger);
   toc.appendChild(panel);
   document.body.appendChild(toc);
+
+  // подсветка целого раздела (от заголовка до следующего заголовка), а не только строки заголовка
+  function flashSection(startEl, endEl) {
+    var old = document.querySelector('.toc-section-flash');
+    if (old) old.remove();
+
+    var contentEl = document.querySelector('.content');
+    var contentRect = contentEl.getBoundingClientRect();
+    var startTop = startEl.getBoundingClientRect().top;
+    var endTop = endEl ? endEl.getBoundingClientRect().top : contentRect.bottom;
+
+    var overlay = document.createElement('div');
+    overlay.className = 'toc-section-flash';
+    overlay.style.left = (contentRect.left + window.scrollX) + 'px';
+    overlay.style.width = contentRect.width + 'px';
+    overlay.style.top = (startTop + window.scrollY - 4) + 'px';
+    overlay.style.height = (endTop - startTop + 4) + 'px';
+    document.body.appendChild(overlay);
+    overlay.addEventListener('animationend', function () { overlay.remove(); });
+  }
 
   // подсветка текущего раздела при скролле
   function updateActive() {

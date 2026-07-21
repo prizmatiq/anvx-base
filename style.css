@@ -410,13 +410,17 @@ ul.plain li { margin: 2px 0; }
   .toc { display: none; }
 }
 
-/* временная подсветка раздела, к которому перешли из TOC */
-@keyframes toc-flash {
-  0% { background-color: rgba(128, 128, 128, 0.2); }
-  100% { background-color: transparent; }
+/* временная подсветка целого раздела (заголовок + текст до следующего заголовка), к которому перешли из TOC */
+@keyframes toc-section-flash {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
 }
 
-.toc-flash {
-  animation: toc-flash 1.2s ease-out;
+.toc-section-flash {
+  position: absolute;
+  background-color: rgba(128, 128, 128, 0.2);
   border-radius: 4px;
+  pointer-events: none;
+  z-index: 1;
+  animation: toc-section-flash 1.2s ease-out;
 }
