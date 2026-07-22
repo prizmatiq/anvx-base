@@ -1,7 +1,7 @@
 - О компании
--- [Документы](about/docs.html)
+-- [Документы](about/)
 - Продукты
 - Процессы
-- [Термины](terms/index.html)
+- [Термины](terms/)
 -- [Foodservice ERP](terms/foodservice/)
 - FAQ
