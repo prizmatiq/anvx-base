@@ -605,3 +605,9 @@ ul.plain li { margin: 2px 0; }
 .back-button {
   display: none;
 }
+
+@media (max-width: 768px) {
+  .desktop-br {
+    display: none;
+  }
+}
