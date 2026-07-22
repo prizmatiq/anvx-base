@@ -134,7 +134,7 @@ a:hover { text-decoration: underline; }
   text-wrap: pretty;
 }
 
-.lead {
+.desc {
   font-size: 1.1em;
   line-height: 1.6;
 }
