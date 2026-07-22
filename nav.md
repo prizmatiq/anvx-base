@@ -2,6 +2,6 @@
 -- Документы
 - Продукты
 - Процессы
-- [Термины](terms/)
+- [Язык компании](terms/)
 -- [Foodservice ERP](terms/foodservice/)
 - FAQ
