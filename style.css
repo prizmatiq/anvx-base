@@ -327,6 +327,7 @@ ul.plain li { margin: 2px 0; }
   flex-shrink: 0;
 }
 
+
 /* Адаптив: планшеты и телефоны */
 @media (max-width: 768px) {
 
@@ -492,4 +493,98 @@ ul.plain li { margin: 2px 0; }
   border-top: 1px solid var(--text);
   opacity: 0.18;
   margin: 32px 0;
+}
+
+
+/* Убираем тень у сайдбара на десктопе */
+@media (min-width: 769px) {
+  .sidebar {
+    box-shadow: none;
+  }
+}
+
+
+/* Новая навигация */
+.brand {
+  display: block;
+  text-decoration: none;
+}
+
+.brand:hover {
+  text-decoration: none;
+}
+
+.site-nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.site-nav-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding-left: calc((var(--depth, 1) - 1) * 16px);
+}
+
+.site-nav-toggle {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  border: none;
+  background: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: transform 0.15s ease;
+}
+
+.site-nav-toggle svg {
+  width: 14px;
+  height: 14px;
+}
+
+.site-nav-item.open > .site-nav-row .site-nav-toggle {
+  transform: rotate(90deg);
+}
+
+.site-nav-spacer {
+  width: 20px;
+  flex-shrink: 0;
+}
+
+.site-nav-row a,
+.site-nav-label-text {
+  display: block;
+  flex: 1;
+  padding: 6px 8px;
+  border-radius: 4px;
+  color: var(--text-secondary);
+  font-size: 16px;
+  white-space: nowrap;
+}
+
+.site-nav-row a:hover {
+  background: var(--hover);
+  color: var(--text);
+  text-decoration: none;
+}
+
+.site-nav-row a.active {
+  background: var(--hover);
+  color: var(--text);
+  font-weight: 500;
+}
+
+.site-nav-children {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.2s ease;
+}
+
+.site-nav-item.open > .site-nav-children {
+  max-height: 500px;
 }

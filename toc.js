@@ -63,10 +63,12 @@ function initTOC() {
     var startTop = startEl.getBoundingClientRect().top;
 
     var endTop;
-    if (endEl && endEl.previousElementSibling) {
-      endTop = endEl.previousElementSibling.getBoundingClientRect().bottom;
-    } else if (endEl) {
-      endTop = endEl.getBoundingClientRect().top;
+    if (endEl) {
+      var prev = endEl.previousElementSibling;
+      while (prev && prev.tagName === 'HR') {
+        prev = prev.previousElementSibling;
+      }
+      endTop = prev ? prev.getBoundingClientRect().bottom : endEl.getBoundingClientRect().top;
     } else {
       endTop = textRect.bottom;
     }

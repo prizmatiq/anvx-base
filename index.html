@@ -4,9 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>База ANVX</title>
+<title>База</title>
 <script>
 (function(){var s=localStorage.getItem('theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.setAttribute('data-theme', s || (d ? 'dark' : 'light'));})();
+window.SITE_ROOT = '';
 </script>
 <link rel="stylesheet" href="style.css">
 </head>
@@ -16,22 +17,14 @@
 <div class="sidebar-backdrop"></div>
 
   <aside class="sidebar">
-    <div class="brand">База ANVX</div>
-    <nav>
-      <a href="index.html" class="active">Главная</a>
-      <a href="#">О компании</a>
-      <a href="#">Продукты</a>
-      <a href="#">Процессы</a>
-      <a href="terms/index.html">Термины</a>
-      <a href="#">FAQ</a>
-      <a href="#">Документы</a>
-    </nav>
+    <a href="index.html" class="brand">База ANVX</a>
+    <nav id="site-nav"></nav>
     <button id="theme-toggle" class="theme-toggle-sidebar" aria-label="Переключить тему"></button>
   </aside>
 
   <main class="content">
     <h1>База ANVX</h1>
-    <p class="subtitle">Внутренняя библиотека компании. Черновой прототип.</p>
+    <p class="subtitle">Добро пожаловать во внутреннюю библиотеку компании.</p>
 
     <ul class="page-list">
       <li><a href="#"><span class="title">О компании</span><span class="soon">скоро</span></a></li>
@@ -39,12 +32,12 @@
       <li><a href="#"><span class="title">Процессы</span><span class="soon">скоро</span></a></li>
       <li><a href="terms/index.html"><span class="title">Термины</span><span class="desc">глоссарий понятий, сгруппированный по смыслу</span></a></li>
       <li><a href="#"><span class="title">FAQ</span><span class="soon">скоро</span></a></li>
-      <li><a href="#"><span class="title">Документы</span><span class="soon">скоро</span></a></li>
     </ul>
   </main>
 
 </div>
 <script src="theme.js" defer></script>
 <script src="nav.js" defer></script>
+<script src="render-nav.js" defer></script>
 </body>
 </html>
