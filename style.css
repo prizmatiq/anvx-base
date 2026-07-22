@@ -188,7 +188,7 @@ h3 {
 
 p { margin: 8px 0 16px 0; }
 
-.page-list {
+.content .page-list {
   list-style: none;
   padding: 0;
   margin: 0;
