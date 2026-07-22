@@ -124,6 +124,13 @@ a:hover { text-decoration: underline; }
   margin: 0 auto;
   padding: 56px 64px 200px 64px;
   max-width: 840px;
+  max-width: 42em;
+
+}
+
+.lead {
+  font-size: 1.1em;
+  line-height: 1.6;
 }
 
 .breadcrumb {
