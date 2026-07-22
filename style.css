@@ -588,3 +588,7 @@ ul.plain li { margin: 2px 0; }
 .site-nav-item.open > .site-nav-children {
   max-height: 500px;
 }
+
+.back-button {
+  display: none;
+}
