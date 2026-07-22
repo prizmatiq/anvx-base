@@ -124,7 +124,7 @@ a:hover { text-decoration: underline; }
   margin: 0 auto;
   padding: 56px 64px 200px 64px;
   max-width: 840px;
-  max-width: 42em;
+  /*max-width: 42em;*/
 
 }
 
