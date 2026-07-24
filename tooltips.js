@@ -24,6 +24,15 @@ function extractFirstParagraph(md) {
   return paragraphs[0] || '';
 }
 
+// заголовок — первый "# ..." в файле; текст — первый абзац ПОСЛЕ этого заголовка
+function extractTitleAndBody(md) {
+  var titleMatch = md.match(/^#\s+(.+)$/m);
+  var title = titleMatch ? titleMatch[1].trim() : '';
+  var rest = titleMatch ? md.slice(md.indexOf(titleMatch[0]) + titleMatch[0].length) : md;
+  var body = extractFirstParagraph(rest);
+  return { title: title, body: body };
+}
+
 // --- превью обычных ссылок (наведение, только десктоп) ---
 
 function showTooltip(anchorEl, text, variant) {
@@ -78,7 +87,7 @@ function initLinkPreviews() {
   });
 }
 
-// --- {{...}}-подсказки (клик, модальное окно с заголовком) ---
+// --- {{...}}-подсказки (клик, модальное окно) ---
 
 var activeModal = null;
 
@@ -97,9 +106,6 @@ function openHintModal(title, text) {
   close.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>';
   close.addEventListener('click', closeHintModal);
 
-  var scroll = document.createElement('div');
-  scroll.className = 'hint-modal-scroll';
-
   var titleEl = document.createElement('h3');
   titleEl.className = 'hint-modal-title';
   titleEl.textContent = title;
@@ -108,10 +114,9 @@ function openHintModal(title, text) {
   textEl.className = 'hint-modal-text';
   textEl.textContent = text;
 
-  scroll.appendChild(titleEl);
-  scroll.appendChild(textEl);
   modal.appendChild(close);
-  modal.appendChild(scroll);
+  modal.appendChild(titleEl);
+  modal.appendChild(textEl);
   backdrop.appendChild(modal);
 
   backdrop.addEventListener('click', function (e) {
@@ -141,21 +146,20 @@ function initTermHints() {
     if (el.dataset.bound) return;
     el.dataset.bound = '1';
     var src = el.getAttribute('data-src');
-    var title = el.textContent;
     var cache = null;
 
     el.addEventListener('click', function () {
-      if (cache) { openHintModal(title, cache); return; }
+      if (cache) { openHintModal(cache.title, cache.body); return; }
       var basePath = location.pathname.replace(/[^\/]*$/, '');
       fetch(basePath + src)
         .then(function (r) { return r.ok ? r.text() : Promise.reject(); })
         .then(function (text) {
-          cache = extractFirstParagraph(text);
-          openHintModal(title, cache);
+          cache = extractTitleAndBody(text);
+          openHintModal(cache.title, cache.body);
         })
         .catch(function () {
-          cache = 'Не удалось загрузить определение.';
-          openHintModal(title, cache);
+          cache = { title: el.textContent, body: 'Не удалось загрузить определение.' };
+          openHintModal(cache.title, cache.body);
         });
     });
   });
