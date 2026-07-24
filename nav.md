@@ -4,7 +4,7 @@
 -- [Позиционирование](positioning/)
 -- [Нейминг](naming/)
 -- [Новое имя](name/)
-- Процессы
+# Процессы
 - [Язык компании](terms/)
 -- [Foodservice ERP](terms/foodservice/)
-- FAQ
+# FAQ
