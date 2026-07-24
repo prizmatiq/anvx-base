@@ -1,6 +1,6 @@
 # Компания
 - [Кодекс](codex/)
-- RSSPACE
+- [RSSPACE](product/) 
 -- [Позиционирование](product/positioning/)
 -- [Нейминг](product/naming/)
 -- [Новое имя](product/name/)
