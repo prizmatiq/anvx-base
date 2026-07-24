@@ -32,16 +32,17 @@ function showTooltip(anchorEl, text, variant) {
   document.body.appendChild(activeTooltip);
 
   var rect = anchorEl.getBoundingClientRect();
-  activeTooltip.style.top = (rect.bottom + window.scrollY + 8) + 'px';
-  activeTooltip.style.left = (rect.left + window.scrollX) + 'px';
+  var tRect = activeTooltip.getBoundingClientRect();
 
-  requestAnimationFrame(function () {
-    if (!activeTooltip) return;
-    var tRect = activeTooltip.getBoundingClientRect();
-    if (tRect.right > window.innerWidth - 16) {
-      activeTooltip.style.left = (window.innerWidth - tRect.width - 16 + window.scrollX) + 'px';
-    }
-  });
+  var top = rect.top + window.scrollY - tRect.height - 8;
+  var left = rect.left + window.scrollX;
+
+  if (left + tRect.width > window.innerWidth - 16) {
+    left = window.innerWidth - tRect.width - 16 + window.scrollX;
+  }
+
+  activeTooltip.style.top = top + 'px';
+  activeTooltip.style.left = left + 'px';
 }
 
 function hideTooltip() {
@@ -77,6 +78,9 @@ function initTermHints() {
 }
 
 function initLinkPreviews() {
+  var canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if (!canHover) return;
+
   document.querySelectorAll('.content a[href$="/"]').forEach(function (a) {
     if (a.dataset.bound) return;
     a.dataset.bound = '1';
