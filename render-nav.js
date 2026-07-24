@@ -88,6 +88,7 @@ document.addEventListener('DOMContentLoaded', function () {
         var childUl = buildList(item.children, depth + 1);
         childUl.classList.add('site-nav-children');
         li.appendChild(childUl);
+        li.classList.add('open');
 
         row.querySelector('.site-nav-toggle').addEventListener('click', function () {
           li.classList.toggle('open');
