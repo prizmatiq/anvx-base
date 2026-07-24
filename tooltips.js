@@ -78,11 +78,11 @@ function initLinkPreviews() {
   });
 }
 
-// --- {{...}}-подсказки (клик, модальное окно, работает и на мобиле) ---
+// --- {{...}}-подсказки (клик, модальное окно с заголовком) ---
 
 var activeModal = null;
 
-function openHintModal(text) {
+function openHintModal(title, text) {
   closeHintModal();
 
   var backdrop = document.createElement('div');
@@ -97,12 +97,21 @@ function openHintModal(text) {
   close.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>';
   close.addEventListener('click', closeHintModal);
 
+  var scroll = document.createElement('div');
+  scroll.className = 'hint-modal-scroll';
+
+  var titleEl = document.createElement('h3');
+  titleEl.className = 'hint-modal-title';
+  titleEl.textContent = title;
+
   var textEl = document.createElement('div');
   textEl.className = 'hint-modal-text';
   textEl.textContent = text;
 
+  scroll.appendChild(titleEl);
+  scroll.appendChild(textEl);
   modal.appendChild(close);
-  modal.appendChild(textEl);
+  modal.appendChild(scroll);
   backdrop.appendChild(modal);
 
   backdrop.addEventListener('click', function (e) {
@@ -132,20 +141,21 @@ function initTermHints() {
     if (el.dataset.bound) return;
     el.dataset.bound = '1';
     var src = el.getAttribute('data-src');
+    var title = el.textContent;
     var cache = null;
 
     el.addEventListener('click', function () {
-      if (cache) { openHintModal(cache); return; }
+      if (cache) { openHintModal(title, cache); return; }
       var basePath = location.pathname.replace(/[^\/]*$/, '');
       fetch(basePath + src)
         .then(function (r) { return r.ok ? r.text() : Promise.reject(); })
         .then(function (text) {
           cache = extractFirstParagraph(text);
-          openHintModal(cache);
+          openHintModal(title, cache);
         })
         .catch(function () {
           cache = 'Не удалось загрузить определение.';
-          openHintModal(cache);
+          openHintModal(title, cache);
         });
     });
   });
