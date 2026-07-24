@@ -64,6 +64,12 @@ function transformDoDont(md) {
   return md;
 }
 
+function transformTermHints(md) {
+  return md.replace(/\{\{(.+?)\|(.+?)\}\}/g, function (match, label, src) {
+    return '<span class="term-hint" data-src="' + src.trim() + '">' + label.trim() + '</span>';
+  });
+}
+
 function protectCodeBlocks(md) {
   var blocks = [];
   var protectedMd = md.replace(/```[\s\S]*?```/g, function (match) {
@@ -92,7 +98,7 @@ document.addEventListener('DOMContentLoaded', function () {
     })
     .then(function (md) {
       var protectedResult = protectCodeBlocks(md);
-      var transformed = transformDoDont(transformContact(protectedResult.md));
+      var transformed = transformDoDont(transformContact(transformTermHints(protectedResult.md)));
       var finalMd = restoreCodeBlocks(transformed, protectedResult.blocks);
       container.innerHTML = marked.parse(finalMd);
 
@@ -115,6 +121,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }
 
       if (window.initTOC) window.initTOC();
+      if (window.initTooltips) window.initTooltips();
     })
     .catch(function (err) {
       container.innerHTML = '<p>Не удалось загрузить содержимое термина (' + mdPath + ').</p>';

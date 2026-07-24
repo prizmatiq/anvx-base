@@ -611,3 +611,28 @@ ul.plain li { margin: 2px 0; }
     display: none;
   }
 }
+
+.term-hint {
+  border-bottom: 1px dashed var(--text-secondary);
+  color: var(--text);
+  cursor: help;
+}
+
+.hover-tooltip {
+  position: absolute;
+  z-index: 200;
+  max-width: 320px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 1.5;
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.18);
+  pointer-events: none;
+}
+
+.hover-tooltip-hint {
+  border-style: dashed;
+}
