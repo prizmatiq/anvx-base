@@ -24,6 +24,8 @@ function extractFirstParagraph(md) {
   return paragraphs[0] || '';
 }
 
+// --- превью обычных ссылок (наведение, только десктоп) ---
+
 function showTooltip(anchorEl, text, variant) {
   hideTooltip();
   activeTooltip = document.createElement('div');
@@ -52,31 +54,6 @@ function hideTooltip() {
   }
 }
 
-function initTermHints() {
-  document.querySelectorAll('.term-hint').forEach(function (el) {
-    if (el.dataset.bound) return;
-    el.dataset.bound = '1';
-    var src = el.getAttribute('data-src');
-    var cache = null;
-
-    el.addEventListener('mouseenter', function () {
-      if (cache) { showTooltip(el, cache, 'hint'); return; }
-      var basePath = location.pathname.replace(/[^\/]*$/, '');
-      fetch(basePath + src)
-        .then(function (r) { return r.ok ? r.text() : Promise.reject(); })
-        .then(function (text) {
-          cache = extractFirstParagraph(text);
-          showTooltip(el, cache, 'hint');
-        })
-        .catch(function () {
-          cache = 'Не удалось загрузить определение.';
-          showTooltip(el, cache, 'hint');
-        });
-    });
-    el.addEventListener('mouseleave', hideTooltip);
-  });
-}
-
 function initLinkPreviews() {
   var canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   if (!canHover) return;
@@ -98,6 +75,79 @@ function initLinkPreviews() {
         .catch(function () { /* нет document.md по этому пути — просто не показываем превью */ });
     });
     a.addEventListener('mouseleave', hideTooltip);
+  });
+}
+
+// --- {{...}}-подсказки (клик, модальное окно, работает и на мобиле) ---
+
+var activeModal = null;
+
+function openHintModal(text) {
+  closeHintModal();
+
+  var backdrop = document.createElement('div');
+  backdrop.className = 'hint-modal-backdrop';
+
+  var modal = document.createElement('div');
+  modal.className = 'hint-modal';
+
+  var close = document.createElement('button');
+  close.className = 'hint-modal-close';
+  close.setAttribute('aria-label', 'Закрыть');
+  close.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>';
+  close.addEventListener('click', closeHintModal);
+
+  var textEl = document.createElement('div');
+  textEl.className = 'hint-modal-text';
+  textEl.textContent = text;
+
+  modal.appendChild(close);
+  modal.appendChild(textEl);
+  backdrop.appendChild(modal);
+
+  backdrop.addEventListener('click', function (e) {
+    if (e.target === backdrop) closeHintModal();
+  });
+
+  document.addEventListener('keydown', escCloseHandler);
+
+  document.body.appendChild(backdrop);
+  activeModal = backdrop;
+}
+
+function escCloseHandler(e) {
+  if (e.key === 'Escape') closeHintModal();
+}
+
+function closeHintModal() {
+  if (activeModal) {
+    activeModal.remove();
+    activeModal = null;
+    document.removeEventListener('keydown', escCloseHandler);
+  }
+}
+
+function initTermHints() {
+  document.querySelectorAll('.term-hint').forEach(function (el) {
+    if (el.dataset.bound) return;
+    el.dataset.bound = '1';
+    var src = el.getAttribute('data-src');
+    var cache = null;
+
+    el.addEventListener('click', function () {
+      if (cache) { openHintModal(cache); return; }
+      var basePath = location.pathname.replace(/[^\/]*$/, '');
+      fetch(basePath + src)
+        .then(function (r) { return r.ok ? r.text() : Promise.reject(); })
+        .then(function (text) {
+          cache = extractFirstParagraph(text);
+          openHintModal(cache);
+        })
+        .catch(function () {
+          cache = 'Не удалось загрузить определение.';
+          openHintModal(cache);
+        });
+    });
   });
 }
 
