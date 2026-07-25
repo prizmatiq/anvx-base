@@ -70,6 +70,14 @@ function transformTermHints(md) {
   });
 }
 
+// Преобразует :::hidden [подпись] ... ::: в раскрывающийся блок
+function transformHidden(md) {
+  return md.replace(/:::hidden(?:[ \t]+(.+?))?[ \t]*\n([\s\S]*?)\n:::/g, function (match, label, body) {
+    var summary = (label || 'Показать').trim();
+    return '\n<details class="hidden-block">\n<summary>' + summary + '</summary>\n\n' + body.trim() + '\n\n</details>\n';
+  });
+}
+
 function protectCodeBlocks(md) {
   var blocks = [];
   var protectedMd = md.replace(/```[\s\S]*?```/g, function (match) {
@@ -98,7 +106,7 @@ document.addEventListener('DOMContentLoaded', function () {
     })
     .then(function (md) {
       var protectedResult = protectCodeBlocks(md);
-      var transformed = transformDoDont(transformContact(transformTermHints(protectedResult.md)));
+      var transformed = transformDoDont(transformContact(transformTermHints(transformHidden(protectedResult.md))));
       var finalMd = restoreCodeBlocks(transformed, protectedResult.blocks);
       container.innerHTML = marked.parse(finalMd);
 
