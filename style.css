@@ -750,3 +750,28 @@ ul.plain li { margin: 2px 0; }
   font-size: 15px;
   opacity: 0.8;
 }
+
+.content table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 16px;
+  margin: 16px 0 24px 0;
+}
+
+.content th {
+  text-align: left;
+  font-weight: 600;
+  padding: 8px 16px 8px 0;
+  border-bottom: 1px solid var(--text);
+  opacity: 1;
+}
+
+.content td {
+  padding: 8px 16px 8px 0;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+.content tr:last-child td {
+  border-bottom: none;
+}
