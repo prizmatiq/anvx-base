@@ -781,3 +781,10 @@ ul.plain li { margin: 2px 0; }
 .content tr:last-child td {
   border-bottom: none;
 }
+
+.muted-block {
+  color: var(--text-secondary);
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 8px 0 16px 0;
+}
