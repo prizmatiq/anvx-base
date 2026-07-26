@@ -130,8 +130,9 @@ a:hover { text-decoration: underline; }
 
 .content p {
   -webkit-hyphens: auto;
-  hyphens: auto;
+  /*hyphens: auto;*/
   text-wrap: pretty;
+  word-break: keep-all;
 }
 
 .desc {
