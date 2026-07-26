@@ -687,8 +687,8 @@ ul.plain li { margin: 2px 0; }
 }
 
 .hint-modal-text {
-  font-size: 15px;
-  line-height: 1.6;
+  font-size: 16px;
+  line-height: 1.8;
   color: var(--text);
 }
 
