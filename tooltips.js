@@ -13,7 +13,12 @@ function stripMarkdown(text) {
 }
 
 function extractExcerpt(md, maxLen) {
-  var stripped = stripMarkdown(md).replace(/\s+/g, ' ').trim();
+  var titleMatch = md.match(/^#\s+(.+)$/m);
+  var rest = titleMatch ? md.slice(md.indexOf(titleMatch[0]) + titleMatch[0].length) : md;
+  var stripped = stripMarkdown(rest)
+    .replace(/^\d+\.\s*/gm, '')
+    .replace(/\s+/g, ' ')
+    .trim();
   if (stripped.length <= maxLen) return stripped;
   return stripped.slice(0, maxLen).trim() + '…';
 }
