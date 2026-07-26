@@ -625,7 +625,7 @@ ul.plain li { margin: 2px 0; }
   padding: 12px 16px;
   border-radius: 8px;
   font-size: 17px;
-  line-height: 1.6;
+  line-height: 1.8;
   background: var(--hover);
   color: var(--text);
   border: 1px solid var(--border);
