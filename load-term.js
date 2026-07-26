@@ -70,10 +70,19 @@ function transformTermHints(md) {
   });
 }
 
+// свёрнутый по умолчанию
 function transformHidden(md) {
   return md.replace(/:::hidden(?:[ \t]+(.+?))?[ \t]*\n([\s\S]*?)\n:::/g, function (match, label, body) {
     var summary = (label || 'Показать').trim();
     return '\n<details class="hidden-block">\n<summary>' + summary + '</summary>\n\n' + body.trim() + '\n\n</details>\n';
+  });
+}
+
+// развёрнутый по умолчанию
+function transformOpen(md) {
+  return md.replace(/:::open(?:[ \t]+(.+?))?[ \t]*\n([\s\S]*?)\n:::/g, function (match, label, body) {
+    var summary = (label || 'Скрыть').trim();
+    return '\n<details class="hidden-block" open>\n<summary>' + summary + '</summary>\n\n' + body.trim() + '\n\n</details>\n';
   });
 }
 
@@ -111,7 +120,7 @@ document.addEventListener('DOMContentLoaded', function () {
     })
     .then(function (md) {
       var protectedResult = protectCodeBlocks(md);
-      var transformed = transformDoDont(transformContact(transformTermHints(transformHidden(transformMuted(protectedResult.md)))));
+      var transformed = transformDoDont(transformContact(transformTermHints(transformHidden(transformOpen(transformMuted(protectedResult.md))))));
       var finalMd = restoreCodeBlocks(transformed, protectedResult.blocks);
       container.innerHTML = marked.parse(finalMd);
 
