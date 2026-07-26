@@ -739,3 +739,14 @@ ul.plain li { margin: 2px 0; }
 .hidden-block[open] > summary {
   margin-bottom: 12px;
 }
+
+.hover-tooltip-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.hover-tooltip-body {
+  font-size: 13px;
+  opacity: 0.8;
+}

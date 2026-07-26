@@ -24,7 +24,6 @@ function extractFirstParagraph(md) {
   return paragraphs[0] || '';
 }
 
-// заголовок — первый "# ..." в файле; текст — первый абзац ПОСЛЕ этого заголовка
 function extractTitleAndBody(md) {
   var titleMatch = md.match(/^#\s+(.+)$/m);
   var title = titleMatch ? titleMatch[1].trim() : '';
@@ -35,11 +34,23 @@ function extractTitleAndBody(md) {
 
 // --- превью обычных ссылок (наведение, только десктоп) ---
 
-function showTooltip(anchorEl, text, variant) {
+function showTooltip(anchorEl, titleText, bodyText, variant) {
   hideTooltip();
   activeTooltip = document.createElement('div');
   activeTooltip.className = 'hover-tooltip hover-tooltip-' + variant;
-  activeTooltip.textContent = text;
+
+  if (titleText) {
+    var titleEl = document.createElement('div');
+    titleEl.className = 'hover-tooltip-title';
+    titleEl.textContent = titleText;
+    activeTooltip.appendChild(titleEl);
+  }
+
+  var bodyEl = document.createElement('div');
+  bodyEl.className = 'hover-tooltip-body';
+  bodyEl.textContent = bodyText;
+  activeTooltip.appendChild(bodyEl);
+
   document.body.appendChild(activeTooltip);
 
   var rect = anchorEl.getBoundingClientRect();
@@ -73,15 +84,18 @@ function initLinkPreviews() {
     var cache = null;
 
     a.addEventListener('mouseenter', function () {
-      if (cache) { showTooltip(a, cache, 'preview'); return; }
+      if (cache) { showTooltip(a, cache.title, cache.body, 'preview'); return; }
       var mdUrl = new URL('document.md', a.href).href;
       fetch(mdUrl)
         .then(function (r) { return r.ok ? r.text() : Promise.reject(); })
         .then(function (text) {
-          cache = extractExcerpt(text, TOOLTIP_MAX_LEN);
-          showTooltip(a, cache, 'preview');
+          cache = {
+            title: extractTitleAndBody(text).title,
+            body: extractExcerpt(text, TOOLTIP_MAX_LEN)
+          };
+          showTooltip(a, cache.title, cache.body, 'preview');
         })
-        .catch(function () { /* нет document.md по этому пути — просто не показываем превью */ });
+        .catch(function () { /* нет document.md — не показываем */ });
     });
     a.addEventListener('mouseleave', hideTooltip);
   });
