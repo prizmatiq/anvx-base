@@ -789,3 +789,28 @@ ul.plain li { margin: 2px 0; }
   line-height: 1.6;
   margin: 8px 0 16px 0;
 }
+
+.stats-block {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  margin: 24px 0;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-value {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--text);
+}
+
+.stat-label {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}

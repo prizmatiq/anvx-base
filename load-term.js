@@ -92,6 +92,31 @@ function transformMuted(md) {
   });
 }
 
+// горизонтальная сводка показателей: заголовки сверху, крупные числа снизу
+function transformStats(md) {
+  return md.replace(/:::stats\s*\n([\s\S]*?)\n:::/g, function (match, block) {
+    var rows = block.split('\n')
+      .map(function (l) { return l.trim(); })
+      .filter(function (l) { return l.indexOf('|') !== -1 && !/^\|[\s\-|:]+\|?$/.test(l); });
+
+    function cells(line) {
+      return line.replace(/^\||\|$/g, '').split('|').map(function (c) { return c.trim(); });
+    }
+
+    if (rows.length < 2) return match;
+
+    var labels = cells(rows[0]);
+    var values = cells(rows[1]);
+
+    var items = labels.map(function (label, i) {
+      var value = values[i] || '';
+      return '<div class="stat-item"><div class="stat-value">' + value + '</div><div class="stat-label">' + label + '</div></div>';
+    }).join('\n');
+
+    return '\n<div class="stats-block">\n' + items + '\n</div>\n';
+  });
+}
+
 function protectCodeBlocks(md) {
   var blocks = [];
   var protectedMd = md.replace(/```[\s\S]*?```/g, function (match) {
@@ -120,7 +145,7 @@ document.addEventListener('DOMContentLoaded', function () {
     })
     .then(function (md) {
       var protectedResult = protectCodeBlocks(md);
-      var transformed = transformDoDont(transformContact(transformTermHints(transformHidden(transformOpen(transformMuted(protectedResult.md))))));
+      var transformed = transformDoDont(transformContact(transformTermHints(transformHidden(transformOpen(transformMuted(transformStats(protectedResult.md)))))));
       var finalMd = restoreCodeBlocks(transformed, protectedResult.blocks);
       container.innerHTML = marked.parse(finalMd);
 
