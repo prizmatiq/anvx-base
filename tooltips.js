@@ -23,18 +23,11 @@ function extractExcerpt(md, maxLen) {
   return stripped.slice(0, maxLen).trim() + '…';
 }
 
-function extractFirstParagraph(md) {
-  var stripped = stripMarkdown(md);
-  var paragraphs = stripped.split(/\n\s*\n/).map(function (p) { return p.replace(/\s+/g, ' ').trim(); }).filter(Boolean);
-  return paragraphs[0] || '';
-}
-
 function extractTitleAndBody(md) {
   var titleMatch = md.match(/^#\s+(.+)$/m);
   var title = titleMatch ? titleMatch[1].trim() : '';
   var rest = titleMatch ? md.slice(md.indexOf(titleMatch[0]) + titleMatch[0].length) : md;
-  var body = extractFirstParagraph(rest);
-  return { title: title, body: body };
+  return { title: title, body: rest.trim() };
 }
 
 // --- превью обычных ссылок (наведение, только десктоп) ---
@@ -110,7 +103,7 @@ function initLinkPreviews() {
 
 var activeModal = null;
 
-function openHintModal(title, text) {
+function openHintModal(title, bodyMarkdown) {
   closeHintModal();
 
   var backdrop = document.createElement('div');
@@ -131,7 +124,11 @@ function openHintModal(title, text) {
 
   var textEl = document.createElement('div');
   textEl.className = 'hint-modal-text';
-  textEl.textContent = text;
+  if (typeof marked !== 'undefined' && marked.parse) {
+    textEl.innerHTML = marked.parse(bodyMarkdown);
+  } else {
+    textEl.textContent = bodyMarkdown;
+  }
 
   modal.appendChild(close);
   modal.appendChild(titleEl);
