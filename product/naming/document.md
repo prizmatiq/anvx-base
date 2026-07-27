@@ -185,7 +185,7 @@
 | bento.style | $60 | |
 | bento.cool | $70 | |
 | bento.top | $70 | premium |
-| bento.day | $90 | premium — готовая игра слов «let's call it a day» |
+| bento.day | $90 | premium — готовая игра слов «{{let's call it a day|info-day.md}}» |
 
 :::
 
