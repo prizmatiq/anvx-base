@@ -1,9 +1,8 @@
 # Компания
 - [Кодекс](codex/)
-- [RSSPACE](product/) 
--- [Позиционирование](product/positioning/)
--- [Нейминг](product/naming/)
--- [Новое имя](product/name/)
+# RSSPACE 
+- [Позиционирование](product/positioning/)
+- [Нейминг](product/naming/)
 # Процессы
 - [Язык компании](terms/)
 -- [Foodservice ERP](terms/foodservice/)
